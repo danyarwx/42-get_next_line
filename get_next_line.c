@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/24 11:28:48 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/24 12:27:27 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,49 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 
 
+char	*ft_strdup(const char *s)
+{
+	char	*dup;
+	size_t	len;
+	size_t	i;
+
+	len = ft_strlen(s);
+	dup = (char *)malloc(len * sizeof(char) + 1);
+	if (dup == NULL)
+		return (NULL);
+	i = 0;
+	while (s[i])
+	{
+		dup[i] = s[i];
+		i++;
+	}
+	dup[i] = '\0';
+	return (dup);
+}
+
+
 
 
 char *get_next_line(int fd)
 {
 	static char *stash;
-	char *line;
+	char *temp;
 	int bytes_read;
-	char *buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	char *buffer;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!stash)
+		stash = ft_strdup(""); // Empty string so the while loop works
+
+
+	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 
 
 	bytes_read = 1;
-	while (ft_strchr(stash, '\n') != NULL && bytes_read != 0)
+	while (ft_strchr(stash, '\n') == NULL && bytes_read != 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if(bytes_read <= 0)
