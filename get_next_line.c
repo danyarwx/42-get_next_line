@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/25 12:24:10 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/25 12:44:07 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,41 @@ char	*ft_strdup(const char *s)
 
 
 
+char	*extract_line(char *stash)
+{
+	//Return the line till \n or the full line if no \n
+	char	*line;
+	size_t	i;
+	size_t	len;
+
+	if (!stash)
+		return (NULL);
+
+	i = 0;
+	while (stash[i] != '\n' && stash[i])
+		i++;
+
+	if (stash[i] == '\n')
+		len = i + 1;
+	else
+		len = i;
+
+	line = (char *)malloc(sizeof(char) * (len + 1));
+	if (!line)
+		return (NULL);
+
+	i = 0;
+	while (i < len)
+	{
+		line[i] = stash[i];
+		i++;
+	}
+	line[i] = '\0';
+	return (line);
+}
+
+
+
 
 char *get_next_line(int fd)
 {
@@ -141,6 +176,10 @@ char *get_next_line(int fd)
 	free(buffer);
 	return(stash);
 }
+
+
+
+
 
 int main(void)
 {
