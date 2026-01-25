@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/24 12:27:27 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/25 12:24:10 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <fcntl.h>
 
 #include "get_next_line.h"
-# define BUFFER_SIZE 9
+# define BUFFER_SIZE 3
 
 
 char	*ft_strchr(const char *s, int c)
@@ -34,6 +34,19 @@ char	*ft_strchr(const char *s, int c)
 	if (s[i] == (char)c)
 		return ((char *)(s + i));
 	return (NULL);
+}
+
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	count;
+
+	count = 0;
+	while (s[count] != '\0')
+	{
+		count++;
+	}
+	return (count);
 }
 
 
@@ -115,23 +128,24 @@ char *get_next_line(int fd)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if(bytes_read <= 0)
 		{
-			printf("Read function failed.\n");
+			free(stash);
 			free(buffer);
-			return (NULL);
+			return (stash = NULL, NULL);
 		}
 		buffer[bytes_read] = '\0';
+		temp = stash;
 		stash = ft_strjoin(stash, buffer);
+		free(temp);
 	}
 
-
 	free(buffer);
-	return(line);
+	return(stash);
 }
 
 int main(void)
 {
-
 	int fd;
+	char *result;
 	fd = open("test.txt", O_RDONLY, 0777);
 
 	if (fd < 0)
@@ -140,15 +154,17 @@ int main(void)
 		return 1;
 	}
 
-	printf("File created successfully \nFile descriptor: %d\n", fd);
+    // Test 1: First call
+    result = get_next_line(fd);
+    printf("Call 1: %s\n", result);
+    // Note: We don't free 'result' here yet because it IS the static 'stash'
+    // In the real project, you'd return a COPY and free the result.
 
-	char *str;
-	str = get_next_line(fd);
+    // Test 2: Second call
+    result = get_next_line(fd);
+    printf("Call 2: %s\n", result);
 
-	printf("Read from file : %s\n", str);
-
-	free(str);
-	close(fd);
+    close(fd);
 	return (0);
 }
 
