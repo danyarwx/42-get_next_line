@@ -6,7 +6,9 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:04 by dzhukov           #+#    #+#             */
-/*   Updated: 2025/12/05 15:11:05 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/25 17:03:29 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "get_next_line.h"
 

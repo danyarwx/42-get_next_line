@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:06 by dzhukov           #+#    #+#             */
-/*   Updated: 2025/12/05 15:15:52 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/25 16:58:11 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,22 @@
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <fcntl.h>
 
-char *get_next_line(int fd);
+# define BUFFER_SIZE 5
+
+char	*ft_strchr(const char *s, int c);
+size_t	ft_strlen(const char *s);
+char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strdup(const char *s);
+
+char	*extract_line(char *stash);
+char	*update_stash(char *stash);
+char	*read_stash(int fd, char *stash);
+
+char	*get_next_line(int fd);
+
 
 
 #endif
