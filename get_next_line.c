@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/25 12:44:07 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/25 15:40:46 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,47 @@ char	*extract_line(char *stash)
 }
 
 
+char	*update_stash(char *stash)
+{
+	char *new;
+	size_t i;
+	size_t j;
+
+	i = 0;
+	while(stash[i] && stash[i] != '\n')
+		i++;
+
+	if (stash[i] == '\0')
+	{
+		free(stash);
+		return (NULL);
+	}
+	i++;
+
+	if (stash[i] == '\0')
+	{
+		free(stash);
+		return (NULL);
+	}
+
+
+	new = malloc(sizeof(char) * (ft_strlen(stash + i) + 1)); // allocate memory for whats left
+
+	if (!new)
+		return(free(stash), NULL);
+
+	j = 0;
+	while(stash[i])
+	{
+		new[j] = stash[i];
+		j++;
+		i++;
+	}
+	new[j] = '\0';
+	free(stash);
+	return(new);
+}
+
 
 
 char *get_next_line(int fd)
@@ -183,6 +224,7 @@ char *get_next_line(int fd)
 
 int main(void)
 {
+
 	int fd;
 	char *result;
 	fd = open("test.txt", O_RDONLY, 0777);
