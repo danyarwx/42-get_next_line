@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/25 15:40:46 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/25 16:36:08 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <fcntl.h>
 
 #include "get_next_line.h"
-# define BUFFER_SIZE 3
+# define BUFFER_SIZE 5
 
 
 char	*ft_strchr(const char *s, int c)
@@ -178,25 +178,15 @@ char	*update_stash(char *stash)
 	return(new);
 }
 
-
-
-char *get_next_line(int fd)
+char *read_stash(int fd, char *stash)
 {
-	static char *stash;
 	char *temp;
 	int bytes_read;
 	char *buffer;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
-		return (NULL);
-	if (!stash)
-		stash = ft_strdup(""); // Empty string so the while loop works
-
-
 	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
-
 
 	bytes_read = 1;
 	while (ft_strchr(stash, '\n') == NULL && bytes_read != 0)
@@ -212,42 +202,84 @@ char *get_next_line(int fd)
 		temp = stash;
 		stash = ft_strjoin(stash, buffer);
 		free(temp);
-	}
 
+		if (!stash)
+		{
+			free(buffer);
+			return (NULL);
+		}
+	}
 	free(buffer);
 	return(stash);
 }
 
+char *get_next_line(int fd)
+{
+	static char *stash;
+	char	*line;
 
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	if (!stash)
+		stash = ft_strdup(""); // Empty string so the while loop works
+	if (!stash)
+		return (NULL);
 
+	stash = read_stash(fd, stash);
+	if (!stash)
+		return (NULL);
+
+	line = extract_line(stash);
+	stash = update_stash(stash);
+	return(line);
+}
 
 
 int main(void)
 {
+    int fd;
+    char *line;
+    int count = 1;
 
-	int fd;
-	char *result;
-	fd = open("test.txt", O_RDONLY, 0777);
+    fd = open("test.txt", O_RDONLY);
+    if (fd < 0)
+    {
+        printf("Error opening file\n");
+        return (1);
+    }
 
-	if (fd < 0)
-	{
-		printf("File was not created");
-		return 1;
-	}
-
-    // Test 1: First call
-    result = get_next_line(fd);
-    printf("Call 1: %s\n", result);
-    // Note: We don't free 'result' here yet because it IS the static 'stash'
-    // In the real project, you'd return a COPY and free the result.
-
-    // Test 2: Second call
-    result = get_next_line(fd);
-    printf("Call 2: %s\n", result);
+    // Read all lines
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        printf("Line %d: %s", count, line);
+        free(line);
+        count++;
+    }
 
     close(fd);
-	return (0);
+
 }
 
 
 
+/*
+
+We have a file with multiple lines:
+
+Line One\n
+Line Two\n
+Line Three\n
+
+And the buffer with size 5
+
+How get next line works:
+
+The main function reads the file with a given buffer and puts it into a string buffer
+Now we uppend each of the read outputs into another string called stash
+And with each iteration we check
+
+
+
+
+
+*/
