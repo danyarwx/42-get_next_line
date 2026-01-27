@@ -6,118 +6,30 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/25 16:58:21 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/27 16:01:25 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strchr(const char *s, int c)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-	{
-		if (s[i] == (char)c)
-			return ((char *)(s + i));
-		i++;
-	}
-	if (s[i] == (char)c)
-		return ((char *)(s + i));
-	return (NULL);
-}
-
-
-size_t	ft_strlen(const char *s)
-{
-	size_t	count;
-
-	count = 0;
-	while (s[count] != '\0')
-	{
-		count++;
-	}
-	return (count);
-}
-
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	size_t	len1;
-	size_t	i;
-	char	*ptr;
-
-	if (!s1 || !s2)
-		return (NULL);
-	len1 = ft_strlen(s1);
-	ptr = (char *)malloc((len1 + ft_strlen(s2) + 1) * sizeof(char));
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (i < len1)
-	{
-		ptr[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (i < ft_strlen(s2))
-	{
-		ptr[i + len1] = s2[i];
-		i++;
-	}
-	ptr[i + len1] = '\0';
-	return (ptr); // Returns allocated string
-}
-
-
-
-
-char	*ft_strdup(const char *s)
-{
-	char	*dup;
-	size_t	len;
-	size_t	i;
-
-	len = ft_strlen(s);
-	dup = (char *)malloc(len * sizeof(char) + 1);
-	if (dup == NULL)
-		return (NULL);
-	i = 0;
-	while (s[i])
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
-}
-
-
-
 char	*extract_line(char *stash)
 {
-	//Return the line till \n or the full line if no \n
 	char	*line;
 	size_t	i;
 	size_t	len;
 
 	if (!stash)
 		return (NULL);
-
 	i = 0;
 	while (stash[i] != '\n' && stash[i])
 		i++;
-
 	if (stash[i] == '\n')
 		len = i + 1;
 	else
 		len = i;
-
 	line = (char *)malloc(sizeof(char) * (len + 1));
 	if (!line)
 		return (NULL);
-
 	i = 0;
 	while (i < len)
 	{
@@ -138,26 +50,14 @@ char	*update_stash(char *stash)
 	i = 0;
 	while(stash[i] && stash[i] != '\n')
 		i++;
-
 	if (stash[i] == '\0')
-	{
-		free(stash);
-		return (NULL);
-	}
+		return (free(stash), NULL);
 	i++;
-
 	if (stash[i] == '\0')
-	{
-		free(stash);
-		return (NULL);
-	}
-
-
+		return (free(stash), NULL);
 	new = malloc(sizeof(char) * (ft_strlen(stash + i) + 1)); // allocate memory for whats left
-
 	if (!new)
 		return(free(stash), NULL);
-
 	j = 0;
 	while(stash[i])
 	{
