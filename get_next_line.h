@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:06 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/25 16:58:11 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/27 17:23:24 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 
+#ifndef BUFFER_SIZE
 # define BUFFER_SIZE 5
+#endif
 
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);

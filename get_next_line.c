@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/27 16:01:25 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/27 18:20:28 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ char *read_stash(int fd, char *stash)
 		return (NULL);
 
 	bytes_read = 1;
-	while (ft_strchr(stash, '\n') == NULL && bytes_read != 0)
+	while (ft_strchr(stash, '\n') == NULL && bytes_read > 0)
 	{
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
-		if(bytes_read <= 0)
+		if(bytes_read == -1)
 		{
 			free(stash);
 			free(buffer);
@@ -118,8 +118,12 @@ char *get_next_line(int fd)
 		return (NULL);
 
 	stash = read_stash(fd, stash);
-	if (!stash)
+	if (!stash || *stash == '\0')
+	{
+		free(stash);
+		stash = NULL;
 		return (NULL);
+	}
 
 	line = extract_line(stash);
 	stash = update_stash(stash);
@@ -127,30 +131,30 @@ char *get_next_line(int fd)
 }
 
 
-int main(void)
-{
-    int fd;
-    char *line;
-    int count = 1;
+// int main(void)
+// {
+//     int fd;
+//     char *line;
+//     int count = 1;
 
-    fd = open("test.txt", O_RDONLY);
-    if (fd < 0)
-    {
-        printf("Error opening file\n");
-        return (1);
-    }
+//     fd = open("test.txt", O_RDONLY);
+//     if (fd < 0)
+//     {
+//         printf("Error opening file\n");
+//         return (1);
+//     }
 
-    // Read all lines
-    while ((line = get_next_line(fd)) != NULL)
-    {
-        printf("Line %d: %s", count, line);
-        free(line);
-        count++;
-    }
+//     // Read all lines
+//     while ((line = get_next_line(fd)) != NULL)
+//     {
+//         printf("Line %d: %s", count, line);
+//         free(line);
+//         count++;
+//     }
 
-    close(fd);
+//     close(fd);
 
-}
+// }
 
 
 
