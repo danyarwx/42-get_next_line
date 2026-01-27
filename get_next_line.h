@@ -6,21 +6,21 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:06 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/27 17:23:24 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/27 18:43:06 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 5
+# endif
 
-#ifndef BUFFER_SIZE
-# define BUFFER_SIZE 5
-#endif
+# include <unistd.h>
+# include <stdlib.h>
+# include <stdio.h>
+# include <fcntl.h>
 
 char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
@@ -32,7 +32,5 @@ char	*update_stash(char *stash);
 char	*read_stash(int fd, char *stash);
 
 char	*get_next_line(int fd);
-
-
 
 #endif

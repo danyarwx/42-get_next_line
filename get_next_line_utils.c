@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:04 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/27 15:55:49 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/27 18:40:05 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ size_t	ft_strlen(const char *s)
 	return (count);
 }
 
-
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	len1;
@@ -66,9 +65,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		i++;
 	}
 	ptr[i + len1] = '\0';
-	return (ptr); // Returns allocated string
+	return (ptr);
 }
-
 
 char	*ft_strdup(const char *s)
 {
