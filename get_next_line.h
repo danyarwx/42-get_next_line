@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:06 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/28 17:39:04 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/28 17:56:21 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*ft_strchr(const char *s, int c);
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strdup(const char *s);
+void	ft_bzero(void *s, size_t n);
 
 char	*extract_line(char *stash);
 char	*update_stash(char *stash, char *bss);
