@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/27 18:53:23 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/28 17:53:54 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,41 @@ char	*extract_line(char *stash)
 	return (line);
 }
 
-char	*update_stash(char *stash)
+void	ft_bzero(void *s, size_t n)
 {
-	char	*new;
+	unsigned char	*ptr;
+	size_t			i;
+
+	ptr = (unsigned char *)s;
+	i = 0;
+	while (i < n)
+	{
+		ptr[i] = '\0';
+		i++;
+	}
+}
+
+char	*update_stash(char *stash, char *bss)
+{
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (stash[i] == '\0')
-		return (free(stash), NULL);
+	if (stash[i] == '\0' || stash[i + 1] == '\0')
+		return (ft_bzero(bss, BUFFER_SIZE + 1), free(stash), NULL);
 	i++;
-	if (stash[i] == '\0')
-		return (free(stash), NULL);
-	new = malloc(sizeof(char) * (ft_strlen(stash + i) + 1));
-	if (!new)
-		return (free(stash), NULL);
 	j = 0;
-	while (stash[i])
+	while (stash[i] && j < BUFFER_SIZE)
 	{
-		new[j] = stash[i];
+		bss[j] = stash[i];
 		j++;
 		i++;
 	}
-	new[j] = '\0';
+	ft_bzero(bss + j, BUFFER_SIZE - j - 1);
 	free(stash);
-	return (new);
+	return (bss);
 }
 
 char	*read_stash(int fd, char *stash)
@@ -100,13 +108,13 @@ char	*read_stash(int fd, char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	bss[BUFFER_SIZE + 1];
+	char		*stash;
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	if (!stash)
-		stash = ft_strdup("");
+	stash = ft_strdup(bss);
 	if (!stash)
 		return (NULL);
 	stash = read_stash(fd, stash);
@@ -117,7 +125,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	}
 	line = extract_line(stash);
-	stash = update_stash(stash);
+	stash = update_stash(stash, bss);
 	return (line);
 }
 
