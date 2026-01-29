@@ -6,7 +6,7 @@
 /*   By: dzhukov <dzhukov@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/05 15:11:02 by dzhukov           #+#    #+#             */
-/*   Updated: 2026/01/28 17:53:54 by dzhukov          ###   ########.fr       */
+/*   Updated: 2026/01/29 18:10:59 by dzhukov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,27 +131,26 @@ char	*get_next_line(int fd)
 
 // int main(void)
 // {
-//     int fd;
-//     char *line;
-//     int count = 1;
+// 	int		fd;
+// 	char	*line;
+// 	int		count;
 
-//     fd = open("test.txt", O_RDONLY);
-//     if (fd < 0)
-//     {
-//         printf("Error opening file\n");
-//         return (1);
-//     }
+// 	fd = open("test.txt", O_RDONLY);
+// 	if (fd < 0)
+// 	{
+// 		printf("Error opening file\n");
+// 		return (1);
+// 	}
 
-//     // Read all lines
-//     while ((line = get_next_line(fd)) != NULL)
-//     {
-//         printf("Line %d: %s", count, line);
-//         free(line);
-//         count++;
-//     }
-
-//     close(fd);
-
+// 	count = 1;
+// 	while ((line = get_next_line(fd)) != NULL && count <= 4)
+// 	{
+// 		printf("Line %d: %s", count, line);
+// 		free(line);
+// 		count++;
+// 	}
+// 	close(fd);
+// 	return (0);
 // }
 //
 // We have a file with multiple lines:
