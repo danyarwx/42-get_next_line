@@ -8,6 +8,9 @@ This project involves programming a function that returns a line read from a fil
 ### Compilation
 The project must be compiled with the following flags: `-Wall -Wextra -Werror`. Additionally, you must define a buffer size for the `read()` function using the `-D BUFFER_SIZE=n` flag.
 
+> [!IMPORTANT]
+> You will have to write your own main.c to test the function, or uncomment my main() function (which reads the whole test.txt file) inside get_next_line.c file.
+
 **Example:**
 ```bash
 cc -Wall -Wextra -Werror -D BUFFER_SIZE=42 get_next_line.c get_next_line_utils.c main.c
