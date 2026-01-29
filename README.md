@@ -48,6 +48,8 @@ The selected algorithm utilizes a static character pointer to maintain a *"stash
 
 3. **Efficiency with Buffer Sizes:** While linked lists can be efficient for very large buffer sizes to avoid massive realloc operations, a string-based approach is more straightforward for the typical `BUFFER_SIZE` ranges.
 
+---
+
 ### Detailed Explanation
 
 We have a file with multiple lines:
